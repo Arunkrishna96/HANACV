@@ -49,12 +49,7 @@
     <attribute id="FROM_COUNTRY" order="5" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="FROM_COUNTRY"/>
       <keyMapping columnObjectName="Projection_1" columnName="FROM_COUNTRY"/>
-    </attribute>
-    <attribute id="DESTINATION" order="6" displayAttribute="false" attributeHierarchyActive="false">
-      <descriptions defaultDescription="DESTINATION"/>
-      <keyMapping columnObjectName="Projection_1" columnName="DESTINATION"/>
-    </attribute>
-  </attributes>
+    </attribute></attributes>
   <calculatedAttributes/>
   <baseMeasures>
     <measure id="NUMBER_OF_PASSENGERS" order="4" aggregationType="sum" measureType="simple">
@@ -62,7 +57,7 @@
       <measureMapping columnObjectName="Projection_1" columnName="NUMBER_OF_PASSENGERS"/>
       <exceptionAggregationMetadata/>
     </measure>
-    <measure id="TIME_OF_ARRIVAL" order="7" aggregationType="min" measureType="simple">
+    <measure id="TIME_OF_ARRIVAL" order="6" aggregationType="min" measureType="simple">
       <descriptions defaultDescription="TIME_OF_ARRIVAL"/>
       <measureMapping columnObjectName="Projection_1" columnName="TIME_OF_ARRIVAL"/>
       <exceptionAggregationMetadata/>
