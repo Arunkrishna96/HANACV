@@ -1,0 +1,7 @@
+{
+  "Flights::FLIGHT_SYN": {
+    "target": {
+      "object": "Flights::FLIGHT"
+    }
+  }
+}
