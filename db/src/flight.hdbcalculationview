@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" id="Flights::flight" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="NONE" outputViewType="Aggregation" application="BAS" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" mdsCubeConversionExecution="AT_REPORTING_TIME" defaultClient="$$client$$" maskMode="DEFAULT">
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:DataFoundation="http://www.sap.com/ndb/BiModelDataFoundation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" id="Flights::flight" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" hierarchyGeneration="AUTO" outputViewType="Aggregation" application="BAS" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" mdsCubeConversionExecution="AT_REPORTING_TIME" defaultClient="$$client$$" maskMode="DEFAULT">
 <descriptions defaultDescription="flight"/>
 <localVariables/>
 <variableMappings/>
@@ -28,6 +28,13 @@
       <calculatedViewAttribute id="CC_2" datatype="NVARCHAR" length="13" expressionLanguage="SQL">
         <formula>'abc'</formula>
       </calculatedViewAttribute>
+    
+      <calculatedViewAttribute id="if_logic" datatype="NVARCHAR" length="13" expressionLanguage="SQL">
+        <formula>CASE
+	 WHEN &quot;DESTINATION&quot; like ('Ger%') then 'Europe' 
+	 ELSE 'Rest of World'
+ END</formula>
+      </calculatedViewAttribute>
     </calculatedViewAttributes>
     <input node="Flights::FLIGHT_SYN"/>
   </calculationView>
@@ -49,7 +56,12 @@
     <attribute id="FROM_COUNTRY" order="5" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="FROM_COUNTRY"/>
       <keyMapping columnObjectName="Projection_1" columnName="FROM_COUNTRY"/>
-    </attribute></attributes>
+    </attribute>
+    <attribute id="if_logic" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="if_logic"/>
+      <keyMapping columnObjectName="Projection_1" columnName="if_logic"/>
+    </attribute>
+  </attributes>
   <calculatedAttributes/>
   <baseMeasures>
     <measure id="NUMBER_OF_PASSENGERS" order="4" aggregationType="sum" measureType="simple">
@@ -67,11 +79,18 @@
   <restrictedMeasures/>
   <localDimensions>
     <localDimension id="LEVEL_1">
+      <attributeRef xsi:type="DataFoundation:Attribute">if_logic</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">FROM_COUNTRY</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">FLIGHT_NUMBER</attributeRef>
       <hierarchies>
         <hierarchy xsi:type="Dimension:LeveledHierarchy" id="LEVEL_1" aggregateAllNodes="true" defaultMember="All" orphanedNodesHandling="ROOT_NODES" rootNodeVisibility="ADD_ROOT_NODE" withRootNode="true" nodeStyle="NAME_PATH_ENFORCED" cacheEnabled="false" cycleHandling="BREAKUP" emptyValueIsNull="true">
-          <descriptions defaultDescription=""/>
+          <descriptions defaultDescription="Hierarchy"/>
           <unassignedMemberProperties mode="FALSE"/>
-          <levels/>
+          <levels>
+            <level levelAttribute="if_logic" levelType="MDLEVEL_TYPE_REGULAR" order="1" orderAttribute="if_logic" sortDirection="ASC"/>
+            <level levelAttribute="FROM_COUNTRY" levelType="MDLEVEL_TYPE_REGULAR" order="2" orderAttribute="FROM_COUNTRY" sortDirection="ASC"/>
+            <level levelAttribute="FLIGHT_NUMBER" levelType="MDLEVEL_TYPE_REGULAR" order="3" orderAttribute="FLIGHT_NUMBER" sortDirection="ASC"/>
+          </levels>
         </hierarchy>
       </hierarchies>
     </localDimension>
@@ -85,7 +104,7 @@
       <rectangleSize width="160"/>
     </shape>
     <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="149" y="434"/>
+      <upperLeftCorner x="139" y="226"/>
       <rectangleSize height="30" width="160"/>
     </shape>
   </shapes>
